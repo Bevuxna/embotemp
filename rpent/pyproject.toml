@@ -1,0 +1,151 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rpent"
+version = "0.0.0"
+authors = [{ name = "RPent Contributors" }]
+description = "Embodied agent framework for coordinating high-level reasoning and robot skills"
+readme = {file = "README.md", content-type = "text/markdown"}
+requires-python = ">=3.10,<3.13"
+license = {file = "LICENSE"}
+keywords = [
+    "embodied-intelligence",
+    "large-language-models",
+    "agent-framework",
+]
+classifiers = [
+    #   2 - Pre-Alpha
+    #   3 - Alpha
+    #   4 - Beta
+    #   5 - Production/Stable
+    "Development Status :: 2 - Pre-Alpha",
+    "Environment :: GPU :: NVIDIA CUDA :: 12 :: 12.4",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+]
+
+dependencies = [
+    "pydantic-ai-slim[anthropic,openai]>=2.1",
+    "pydantic>=2",
+    "fastapi>=0.110",
+    "uvicorn>=0.27",
+    "httpx>=0.27",
+    "claude-agent-sdk>=0.1.60",
+    "openai-codex>=0.1.0b3",
+    "mcp>=1.23.0,<2.0.0",
+    "huggingface_hub>=0.24",
+    "prompt-toolkit>=3.0.48",
+    "numpy",
+    "imageio>=2.0",
+    "PyYAML>=6.0",
+]
+
+[project.scripts]
+rpent = "rpent.cli.main:main"
+rpent-memory = "rpent.cli.memory:main"
+
+[project.urls]
+Homepage = "https://github.com/RLinf/RPent"
+Repository = "https://github.com/RLinf/RPent"
+Documentation = "https://rpent.readthedocs.io/en/latest/"
+"Bug Report" = "https://github.com/RLinf/RPent/issues"
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-timeout",
+]
+rlinf = [
+    "rpent-rlinf",
+]
+sam3 = [
+    "sam3 @ git+https://github.com/RLinf/sam3.git@main",
+    "einops>=0.8.0",
+    "pycocotools",
+    "torch",
+    "torchvision",
+    "pillow>=10",
+]
+libero = [
+    "rpent[rlinf,sam3]",
+    "rpent-openpi @ git+https://github.com/RLinf/openpi.git@rpent",
+    "rpent-libero>=0.2.0",
+    # MuJoCo 3.4+ changes LIBERO settling, misplacing objects and reducing task success; see https://github.com/RLinf/RLinf/issues/1460.
+    "mujoco==3.3.0",
+]
+libero-pro = [
+    "rpent[libero]",
+    "rpent-liberopro>=0.2.0",
+]
+libero-plus = [
+    # LIBERO-plus requires robosuite<1.5, so it cannot inherit the standard LIBERO extra.
+    "rpent[rlinf,sam3]",
+    "rpent-openpi @ git+https://github.com/RLinf/openpi.git@rpent",
+    "rlinf-liberoplus",
+    "mujoco==3.3.0",
+    "h5py",
+]
+robocasa = [
+    "rpent[rlinf]",
+    "rlinf-robocasa365",
+    "rlinf-rldx>=1.0.1.post10",
+    "robosuite @ git+https://github.com/RLinf/robosuite.git@rpent",
+]
+robotwin = [
+    # TODO: replace fixed owner-controlled revisions with released versions.
+    "rpent[rlinf]",
+    "rlinf-robotwin-runtime @ git+https://github.com/Sonorous281/RoboTwin.git@11d2d4ba1ba4819ebf63bb91ba0c5dfd4b0f81f2",
+    "rlinf-lingbotvla @ git+https://github.com/RLinf/lingbot-vla.git@e158cce02f50dbb48b7f5bf76fdb34c1c1f97e12",
+]
+
+[tool.uv]
+prerelease = "allow"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["rpent*"]
+exclude = ["tests*", "docs*", "examples*", "docker*", "toolkits*"]
+
+[tool.setuptools.package-data]
+"rpent.dashboard" = ["*.html", "static/*.css", "static/*.js"]
+
+[tool.pytest.ini_options]
+addopts = ["--import-mode=importlib"]
+pythonpath = ["."]
+timeout = 60
+
+[tool.ruff]
+line-length = 88
+indent-width = 4
+target-version = "py311"
+
+[tool.ruff.lint]
+isort = {known-first-party = ["rpent"]}
+select = ["C", "E", "F", "I", "W", "CPY001", "RUF013", "UP006", "PERF102", "PLC1802", "PLC0208", "DOC102", "DOC202", "DOC403", "DOC502"]
+ignore = [
+    "C901", # "complex-structure"
+    "E501", # "line-too-long"
+    "E741", # "ambiguous-variable-name"
+    "D100", # "Missing docstring in public module"
+    "D104", # "Missing docstring in public package"
+    "D203", # "incorrect-blank-line-before-class", conflict with D211,
+    "D213", # "multi-line-summary-second-line", conflict with D212
+]
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = true
+docstring-code-line-length = "dynamic"

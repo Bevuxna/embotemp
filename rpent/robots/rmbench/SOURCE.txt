@@ -1,0 +1,7 @@
+Task modules in env_overlay/ and JSON in task_instruction/ are copied from
+https://github.com/RoboTwin-Platform/RMBench (MIT) without rewriting imports.
+
+They are loaded at runtime as robotwin.envs.<task_name> so
+`from ._base_task import Base_Task` and `from .utils import *` resolve to the
+already-installed rlinf-robotwin-runtime package, not RMBench's forked
+_base_task.py.

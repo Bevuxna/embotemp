@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "benchmark": "RMBench",
+  "task_config": "demo_clean",
+  "note": "Official RMBench always uses demo_clean. Seeds below are placeholders for smoke runs; they are not RoboTwin C2R verified expert seeds. Success is TASK_ENV.eval_success.",
+  "asset_dataset": "TianxingChen/RMBench",
+  "tasks": {
+    "observe_and_pickup": {"step_lim": 250, "smoke_seeds": [0]},
+    "put_back_block": {"step_lim": 500, "smoke_seeds": [0]},
+    "swap_T": {"step_lim": 600, "smoke_seeds": [0]},
+    "rearrange_blocks": {"step_lim": 700, "smoke_seeds": [0]},
+    "swap_blocks": {"step_lim": 1000, "smoke_seeds": [0]},
+    "battery_try": {"step_lim": 1000, "smoke_seeds": [0]},
+    "press_button": {"step_lim": 1500, "smoke_seeds": [0]},
+    "cover_blocks": {"step_lim": 1500, "smoke_seeds": [0]},
+    "place_block_mat": {"step_lim": 1500, "smoke_seeds": [0]},
+    "blocks_ranking_try": {"step_lim": 3500, "smoke_seeds": [0]}
+  }
+}

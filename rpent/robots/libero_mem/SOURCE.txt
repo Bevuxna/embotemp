@@ -1,0 +1,16 @@
+LIBERO-Mem evaluation overlay.
+
+Upstream eval env: https://github.com/libero-mem/libero-mem
+Paper: https://arxiv.org/abs/2511.11478
+Site: https://libero-mem.github.io/
+
+This overlay does NOT vendor their full `libero` package and must not be
+pip-installed into /root/autodl-tmp/envs/rpent (that would replace
+liberopro). Only the sparse clone is used:
+
+  libero/libero/bddl_files/libero_mem/*.bddl
+  scripts/__init_data/*.pruned_init
+  sequential checker logic (ported into robots/libero_mem/sequential.py)
+
+Kitchen meshes stay on the existing LIBERO-PRO assets. Do not download
+https://github.com/libero-mem/naive-e-slotssm or the 211GB HF dataset.
